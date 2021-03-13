@@ -32,6 +32,14 @@ public class HeadlinesFragment extends ListFragment {
         // Create an array adapter for the list view, using the Ipsum headlines array
         // ListFragmentにはListAdapterを設定する必要がある
         setListAdapter(new ArrayAdapter<String>(getActivity(), layout, Ipsum.Headlines));
+
+        try {
+            mCallback = (OnHeadlineSelectedListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+
     }
 
     @Override
@@ -47,19 +55,19 @@ public class HeadlinesFragment extends ListFragment {
     }
 
     // フラグメントがアクティビティに追加された時に呼び出される（現在は非推奨、onCreateを利用する）
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        // This make sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception.
-        try {
-            mCallback = (OnHeadlineSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
-        }
-    }
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//
+//        // This make sure that the container activity has implemented
+//        // the callback interface. If not, it throws an exception.
+//        try {
+//            mCallback = (OnHeadlineSelectedListener) activity;
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString()
+//                    + " must implement OnHeadlineSelectedListener");
+//        }
+//    }
 
     // このフラグメントが持つListViewでリストが選択された場合に、
     // mCallbacに格納されている呼び出し元のActivityのonArticleSelectedを呼び出す
